@@ -1,0 +1,24 @@
+{
+  "id": "codex-usage-footer",
+  "name": "Codex Usage Footer",
+  "description": "Append Codex 5h/weekly usage footer to outgoing messages.",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "enabled": { "type": "boolean", "default": true },
+      "codexBin": { "type": "string", "default": "codex" },
+      "channelIds": {
+        "type": "array",
+        "items": { "type": "string" },
+        "default": []
+      },
+      "conversationIds": {
+        "type": "array",
+        "items": { "type": "string" },
+        "default": []
+      },
+      "directOnly": { "type": "boolean", "default": true }
+    }
+  }
+}
