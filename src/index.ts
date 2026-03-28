@@ -27,7 +27,7 @@ function matchesScope(ctx: any, config: any): boolean {
 }
 
 export default definePluginEntry({
-  id: 'codex-usage-footer',
+  id: 'openclaw-codex-usage-footer',
   name: 'Codex Usage Footer',
   description: 'Append Codex 5h/weekly usage footer to outgoing messages',
   register(api) {
