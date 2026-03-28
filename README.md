@@ -71,4 +71,4 @@ Typical workspace path:
 
 ## Why this exists
 
-OpenClaw already supports usage footers, but this extension is useful when you specifically want Codex rate-limit status in the reply itself.
+This extension exists because OpenClaw did not expose Codex rate-limit status in outgoing replies by default. It adds that footer through the `message_sending` hook and `codex app-server`.
