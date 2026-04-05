@@ -1,4 +1,4 @@
-import { t as definePluginEntry } from '/usr/local/lib/node_modules/openclaw/dist/plugin-entry-CK-4XWE0.js';
+import { definePluginEntry } from '/usr/local/lib/node_modules/openclaw/dist/plugin-sdk/plugin-entry.js';
 import { getCodexUsageFooter } from './codex-rate-limits.ts';
 
 function shouldSkip(content: unknown): boolean {

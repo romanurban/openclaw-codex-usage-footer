@@ -4,9 +4,17 @@
   "private": false,
   "type": "module",
   "description": "OpenClaw extension that appends Codex rate-limit footer to outgoing messages.",
-  "keywords": ["openclaw", "codex", "telegram", "extension", "usage"],
+  "keywords": [
+    "openclaw",
+    "codex",
+    "telegram",
+    "extension",
+    "usage"
+  ],
   "license": "MIT",
   "openclaw": {
-    "extensions": ["./src/index.ts"]
+    "extensions": [
+      "./index.ts"
+    ]
   }
 }
