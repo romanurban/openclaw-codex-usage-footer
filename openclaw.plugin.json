@@ -1,24 +1,13 @@
 {
-  "id": "openclaw-codex-usage-footer",
-  "name": "Codex Usage Footer",
-  "description": "Append Codex 5h/weekly usage footer to outgoing messages.",
+  "id": "openclaw-codex-usage-command",
+  "name": "Codex Usage Command",
+  "description": "Reply with Codex usage when /codex-usage is invoked.",
   "configSchema": {
     "type": "object",
     "additionalProperties": false,
     "properties": {
       "enabled": { "type": "boolean", "default": true },
-      "codexBin": { "type": "string", "default": "codex" },
-      "channelIds": {
-        "type": "array",
-        "items": { "type": "string" },
-        "default": []
-      },
-      "conversationIds": {
-        "type": "array",
-        "items": { "type": "string" },
-        "default": []
-      },
-      "directOnly": { "type": "boolean", "default": true }
+      "codexBin": { "type": "string", "default": "codex" }
     }
   }
 }

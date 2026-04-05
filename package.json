@@ -1,9 +1,9 @@
 {
-  "name": "openclaw-codex-usage-footer",
+  "name": "openclaw-codex-usage-command",
   "version": "0.1.0",
   "private": false,
   "type": "module",
-  "description": "OpenClaw extension that appends Codex rate-limit footer to outgoing messages.",
+  "description": "OpenClaw extension that serves Codex rate limits via /codex-usage command.",
   "keywords": [
     "openclaw",
     "codex",

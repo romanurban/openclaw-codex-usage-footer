@@ -5,20 +5,33 @@ export type RateLimitSnapshot = {
   secondary?: { usedPercent?: number; windowDurationMins?: number; resetsAt?: number };
 };
 
-function nowHm() {
-  const d = new Date();
+function clampPercent(value: number): number {
+  return Math.max(0, Math.min(100, Math.round(value)));
+}
+
+function resolveResetsHm(snapshot: RateLimitSnapshot): string | null {
+  const raw = snapshot?.primary?.resetsAt ?? snapshot?.secondary?.resetsAt;
+  if (typeof raw !== 'number' || !Number.isFinite(raw)) return null;
+  const ts = raw > 1e12 ? raw : raw * 1000;
+  const d = new Date(ts);
+  if (Number.isNaN(d.getTime())) return null;
   const hh = String(d.getHours()).padStart(2, '0');
   const mm = String(d.getMinutes()).padStart(2, '0');
   return `${hh}:${mm}`;
 }
 
-export function formatFooter(snapshot: RateLimitSnapshot): string | null {
+export function formatUsageMessage(snapshot: RateLimitSnapshot): string | null {
   const primaryUsed = snapshot?.primary?.usedPercent;
   const secondaryUsed = snapshot?.secondary?.usedPercent;
   if (typeof primaryUsed !== 'number' || typeof secondaryUsed !== 'number') return null;
-  const hourLeft = Math.max(0, Math.min(100, 100 - Math.round(primaryUsed)));
-  const weekLeft = Math.max(0, Math.min(100, 100 - Math.round(secondaryUsed)));
-  return `• ⏱ ${hourLeft}% · 📅 ${weekLeft}% (last check ${nowHm()})`;
+
+  const hourlyUsed = clampPercent(primaryUsed);
+  const weeklyUsed = clampPercent(secondaryUsed);
+  const hourlyLeft = 100 - hourlyUsed;
+  const weeklyLeft = 100 - weeklyUsed;
+  const resetsAt = resolveResetsHm(snapshot) ?? 'unknown';
+
+  return `⏱ Hourly: ${hourlyUsed}% used (${hourlyLeft}% left). 📅 Weekly: ${weeklyUsed}% used (${weeklyLeft}% left). Resets at ${resetsAt}.`;
 }
 
 export async function readCodexRateLimits(codexBin: string): Promise<RateLimitSnapshot | null> {
@@ -76,8 +89,8 @@ export async function readCodexRateLimits(codexBin: string): Promise<RateLimitSn
       id: 1,
       params: {
         clientInfo: {
-          name: 'openclaw_codex_usage_footer',
-          title: 'OpenClaw Codex Usage Footer',
+          name: 'openclaw_codex_usage',
+          title: 'OpenClaw Codex Usage',
           version: '0.1.0'
         },
         capabilities: { experimentalApi: true }
@@ -88,8 +101,8 @@ export async function readCodexRateLimits(codexBin: string): Promise<RateLimitSn
   });
 }
 
-export async function getCodexUsageFooter(codexBin: string): Promise<string | null> {
+export async function getCodexUsageMessage(codexBin: string): Promise<string | null> {
   const snapshot = await readCodexRateLimits(codexBin);
   if (!snapshot) return null;
-  return formatFooter(snapshot);
+  return formatUsageMessage(snapshot);
 }
